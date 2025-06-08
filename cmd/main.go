@@ -31,11 +31,13 @@ func init() {
 }
 
 func main() {
-	tp, err := telemetry.InitTracer()
+	ctx := context.Background()
+
+	tp, err := telemetry.InitTracer(ctx)
 	if err != nil {
 		log.Fatalf("failed to initialize OpenTelemetry: %v", err)
 	}
-	defer func() { _ = tp.Shutdown(context.Background()) }()
+	defer func() { _ = tp.Shutdown(ctx) }()
 
 	r := gin.Default()
 	r.Use(otelgin.Middleware(serviceName))

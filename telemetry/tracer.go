@@ -1,23 +1,27 @@
 package telemetry
 
 import (
+	"context"
 	"os"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/exporters/jaeger"
+	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/resource"
-	"go.opentelemetry.io/otel/sdk/trace"
+	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 )
 
-func InitTracer() (*trace.TracerProvider, error) {
-	jaegerEndpoint := os.Getenv("JAEGER_ENDPOINT")
-	if jaegerEndpoint == "" {
-		jaegerEndpoint = "http://jaeger:14268/api/traces"
+func InitTracer(ctx context.Context) (*sdktrace.TracerProvider, error) {
+	otlpEndpoint := os.Getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
+	if otlpEndpoint == "" {
+		otlpEndpoint = "http://otel-collector:4318"
 	}
 
-	exp, err := jaeger.New(jaeger.WithCollectorEndpoint(jaeger.WithEndpoint(jaegerEndpoint)))
+	exp, err := otlptracehttp.New(ctx,
+		otlptracehttp.WithEndpoint(otlpEndpoint),
+		otlptracehttp.WithInsecure(), // HTTP sem TLS
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -27,9 +31,9 @@ func InitTracer() (*trace.TracerProvider, error) {
 		serviceName = "default-service"
 	}
 
-	tp := trace.NewTracerProvider(
-		trace.WithBatcher(exp),
-		trace.WithResource(resource.NewSchemaless(
+	tp := sdktrace.NewTracerProvider(
+		sdktrace.WithBatcher(exp),
+		sdktrace.WithResource(resource.NewSchemaless(
 			attribute.String("service.name", serviceName),
 		)),
 	)
