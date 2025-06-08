@@ -7,7 +7,7 @@ COPY . .
 RUN go build -o main ./cmd/main.go
 
 FROM golang:1.23-alpine AS dev
-RUN apk add --no-cache git
+RUN apk add --no-cache git curl
 WORKDIR /app
 EXPOSE 8080
 CMD ["/bin/sh"]

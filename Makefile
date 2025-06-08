@@ -3,13 +3,7 @@ ifneq (,$(wildcard ./.env))
 	export
 endif
 
-ifeq ($(ENV),dev)
-	COMPOSE_FILE=docker-compose.dev.yaml
-else ifeq ($(ENV),prod)
-	COMPOSE_FILE=docker-compose.prod.yaml
-else
-	$(error Environment variable ENV not set or not valid)
-endif
+COMPOSE_FILE=docker-compose.dev.yaml
 
 up:
 	docker-compose -f $(COMPOSE_FILE) up --build --force-recreate -d
@@ -22,3 +16,16 @@ test:
 
 down:
 	docker-compose -f $(COMPOSE_FILE) down
+
+pre-commit:
+	pre-commit run --all-files
+
+install-deps:
+	brew install golangci-lint
+	brew install pre-commit
+
+pre-commit-install:
+	pre-commit install
+
+pre-commit-run:
+	pre-commit run --all-files
