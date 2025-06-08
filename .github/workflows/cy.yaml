@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  pr-validator:
     runs-on: ubuntu-latest
 
     steps:

@@ -20,10 +20,6 @@ down:
 pre-commit:
 	pre-commit run --all-files
 
-install-deps:
-	brew install golangci-lint
-	brew install pre-commit
-
 pre-commit-install:
 	pre-commit install
 
