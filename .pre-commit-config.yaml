@@ -9,5 +9,8 @@ repos:
     rev: v4.5.0
     hooks:
       - id: trailing-whitespace
+        exclude: ^assets/
       - id: end-of-file-fixer
+        exclude: ^assets/
       - id: check-added-large-files
+        exclude: ^assets/
