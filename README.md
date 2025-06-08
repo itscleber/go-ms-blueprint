@@ -2,8 +2,6 @@
 
 [![CI](https://github.com/itscleber/go-ms-blueprint/actions/workflows/cy.yaml/badge.svg)](https://github.com/itscleber/go-ms-blueprint/actions/workflows/cy.yaml)
 
-<img src="assets/go.png" alt="Gopher Tracing" width="120"/>
-
 A lightweight and opinionated Go microservice blueprint with structured folders, built-in observability, and Docker support.
 
 ---
@@ -46,8 +44,6 @@ All commands are available through `make`:
 
 This project includes OpenTelemetry integration with traces sent to Jaeger.
 Default endpoint: `http://localhost:16686`
-
-<img src="assets/jaeger.png" alt="Jaeger"/>
 
 Access the Jaeger UI at `http://localhost:16686`
 
