@@ -1,0 +1,21 @@
+version: "2"
+
+run:
+  timeout: 5m
+  skip-dirs:
+    - vendor
+  skip-files:
+    - ".*_generated.go"
+
+linters:
+  enable:
+    - staticcheck
+    - errcheck
+    - govet
+    - unused
+  disable:
+    # -
+
+linters-settings:
+  gofmt:
+    simplify: true
