@@ -6,7 +6,3 @@ linters:
     - errcheck
     - govet
     - unused
-
-linters-settings:
-  gofmt:
-    simplify: true
