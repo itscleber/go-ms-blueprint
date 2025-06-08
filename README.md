@@ -1,6 +1,6 @@
 # Go Microservice Blueprint
 
-[![CI](https://github.com/itscleber/go-ms-blueprint/actions/workflows/cy.yaml/badge.svg)](https://github.com/itscleber/go-ms-blueprint/actions/workflows/cy.yaml)
+[![CI](https://github.com/itscleber/go-ms-blueprint/actions/workflows/ci-pr.yaml/badge.svg)](https://github.com/itscleber/go-ms-blueprint/actions/workflows/ci-pr.yaml/badge.svg)
 
 A lightweight and opinionated Go microservice blueprint with structured folders, built-in observability, and Docker support.
 
