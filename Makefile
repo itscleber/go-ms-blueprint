@@ -23,5 +23,12 @@ pre-commit-install:
 pre-commit:
 	pre-commit run --all-files
 
-linter:
-	golangci-lint fmt
+lint:
+	golangci-lint run ./...
+
+test:
+	go test -v ./...
+
+cover:
+	go test -coverprofile=coverage.out ./...
+	go tool cover -html=coverage.out
