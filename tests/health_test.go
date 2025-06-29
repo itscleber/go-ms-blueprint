@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"template/internal/handlers"
@@ -16,7 +17,6 @@ func TestHealthHandler_HealthCheck(t *testing.T) {
 	t.Setenv("PORT", "8080")
 	gin.SetMode(gin.TestMode)
 
-	// setup router com dependências reais
 	repo := repositories.StaticHealthRepository{}
 	svc := services.NewHealthService(repo)
 	handler := handlers.NewHealthHandler(svc)
@@ -26,9 +26,14 @@ func TestHealthHandler_HealthCheck(t *testing.T) {
 
 	req, _ := http.NewRequest(http.MethodGet, "/health", nil)
 	recorder := httptest.NewRecorder()
-
 	router.ServeHTTP(recorder, req)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
-	assert.JSONEq(t, `{"status":"healthy"}`, recorder.Body.String())
+
+	var body services.HealthStatus
+	err := json.Unmarshal(recorder.Body.Bytes(), &body)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "healthy", body.Status)
+	assert.NotEmpty(t, body.Uptime)
 }
