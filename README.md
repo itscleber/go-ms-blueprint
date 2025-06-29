@@ -38,6 +38,9 @@ All commands are available through `make`:
 - `make pre-commit-install` — Install Git pre-commit hooks
 - `make pre-commit-run` — Run all pre-commit hooks manually
 
+The service listens on the port specified by the `PORT` environment variable.
+If not set, it defaults to `8080`.
+
 ---
 
 ## 🔍 Jaeger Tracing

@@ -13,6 +13,8 @@ import (
 func TestHealthCheckHandler(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
+	t.Setenv("PORT", "8080")
+
 	r := gin.Default()
 	api.RegisterRoutes(r)
 
