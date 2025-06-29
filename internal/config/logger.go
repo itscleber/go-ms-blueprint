@@ -1,32 +1,37 @@
 package config
 
 import (
-	"log"
-	"os"
+        "log"
+        "os"
 )
 
-var logger *log.Logger
+var (
+        infoLogger  *log.Logger
+        errorLogger *log.Logger
+        debugLogger *log.Logger
+        fatalLogger *log.Logger
+)
 
 func SetupLogger() {
-	logger = log.New(os.Stdout, "", log.Ldate|log.Ltime|log.Lshortfile)
+        flags := log.Ldate | log.Ltime | log.Lshortfile
+        infoLogger = log.New(os.Stdout, "INFO: ", flags)
+        errorLogger = log.New(os.Stdout, "ERROR: ", flags)
+        debugLogger = log.New(os.Stdout, "DEBUG: ", flags)
+        fatalLogger = log.New(os.Stdout, "FATAL: ", flags)
 }
 
 func Info(message string) {
-	logger.SetPrefix("INFO: ")
-	logger.Println(message)
+        infoLogger.Println(message)
 }
 
 func Error(message string) {
-	logger.SetPrefix("ERROR: ")
-	logger.Println(message)
+        errorLogger.Println(message)
 }
 
 func Debug(message string) {
-	logger.SetPrefix("DEBUG: ")
-	logger.Println(message)
+        debugLogger.Println(message)
 }
 
 func Fatal(message string) {
-	logger.SetPrefix("FATAL: ")
-	logger.Fatalln(message)
+        fatalLogger.Fatalln(message)
 }
