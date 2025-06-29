@@ -21,4 +21,4 @@ pre-commit-install:
 	pre-commit install
 
 linter:
-	pre-commit run --all-files
+	golangci-lint fmt
