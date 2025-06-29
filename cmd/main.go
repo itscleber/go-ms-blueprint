@@ -14,7 +14,6 @@ import (
 func main() {
 	ctx := context.Background()
 
-	// inicia tracer
 	tp := telemetry.MustInitTracer(ctx)
 	defer func() {
 		if err := tp.Shutdown(ctx); err != nil {
@@ -22,13 +21,10 @@ func main() {
 		}
 	}()
 
-	// inicia trace principal
 	ctx, span := otel.Tracer("main").Start(ctx, "startup")
 	defer span.End()
 
 	serviceName := config.LoadEnvAndLogger()
-
-	// inicia o router com trace
 	r := api.SetupRouter(serviceName)
 
 	port := config.GetPort()
