@@ -2,20 +2,24 @@ package handlers
 
 import (
 	"net/http"
+	"github.com/itscleber/go-ms-blueprint/internal/services"
 
 	"github.com/gin-gonic/gin"
-	"template/internal/services"
 )
 
-type HealthHandler struct {
-	svc *services.HealthService
+type HealthService interface {
+	Check() services.HealthStatus
 }
 
-func NewHealthHandler(svc *services.HealthService) *HealthHandler {
+type HealthHandler struct {
+	svc HealthService
+}
+
+func NewHealthHandler(svc HealthService) *HealthHandler {
 	return &HealthHandler{svc: svc}
 }
 
 func (h *HealthHandler) HealthCheck(c *gin.Context) {
 	status := h.svc.Check()
-	c.JSON(http.StatusOK, gin.H{"status": status})
+	c.JSON(http.StatusOK, status)
 }

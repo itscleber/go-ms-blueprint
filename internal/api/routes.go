@@ -1,7 +1,12 @@
 package api
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/itscleber/go-ms-blueprint/internal/handlers"
 
-func RegisterRoutes(r *gin.Engine) {
-	registerHealthRoutes(r)
+	"github.com/gin-gonic/gin"
+)
+
+func RegisterRoutes(r *gin.Engine, healthHandler *handlers.HealthHandler, readinessHandler *handlers.ReadinessHandler, livenessHandler *handlers.LivenessHandler) {
+	registerHealthRoutes(r, healthHandler)
+	registerOpsRoutes(r, readinessHandler, livenessHandler)
 }

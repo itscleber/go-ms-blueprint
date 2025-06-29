@@ -1,0 +1,30 @@
+package api
+
+import (
+	"github.com/itscleber/go-ms-blueprint/internal/handlers"
+	"github.com/itscleber/go-ms-blueprint/internal/repositories"
+	"github.com/itscleber/go-ms-blueprint/internal/services"
+
+	"github.com/gin-gonic/gin"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
+)
+
+func SetupRouter(serviceName string) *gin.Engine {
+	repo := repositories.StaticHealthRepository{}
+	svc := services.NewHealthService(repo)
+	healthHandler := handlers.NewHealthHandler(svc)
+
+	repoReadiness := repositories.StaticReadinessRepository{}
+	svcReadiness := services.NewReadinessService(repoReadiness)
+	readinessHandler := handlers.NewReadinessHandler(svcReadiness)
+
+	repoLiveness := repositories.StaticLivenessRepository{}
+	svcLiveness := services.NewLivenessService(repoLiveness)
+	livenessHandler := handlers.NewLivenessHandler(svcLiveness)
+
+	r := gin.Default()
+	r.Use(otelgin.Middleware(serviceName))
+
+	RegisterRoutes(r, healthHandler, readinessHandler, livenessHandler)
+	return r
+}

@@ -17,11 +17,18 @@ test:
 down:
 	docker-compose -f $(COMPOSE_FILE) down
 
-pre-commit:
-	pre-commit run --all-files
-
 pre-commit-install:
 	pre-commit install
 
-pre-commit-run:
+pre-commit:
 	pre-commit run --all-files
+
+lint:
+	golangci-lint run ./...
+
+test:
+	go test -v ./...
+
+cover:
+	go test -coverprofile=coverage.out ./...
+	go tool cover -html=coverage.out

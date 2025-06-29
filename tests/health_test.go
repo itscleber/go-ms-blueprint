@@ -1,27 +1,91 @@
 package tests
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	"template/internal/api"
+	"github.com/itscleber/go-ms-blueprint/internal/handlers"
+	"github.com/itscleber/go-ms-blueprint/internal/repositories"
+	"github.com/itscleber/go-ms-blueprint/internal/services"
 	"testing"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestHealthCheckHandler(t *testing.T) {
+type readinessResponse struct {
+	Status string `json:"status"`
+}
+
+func TestHealthHandler_HealthCheck(t *testing.T) {
+	t.Setenv("PORT", "8080")
 	gin.SetMode(gin.TestMode)
 
-	t.Setenv("PORT", "8080")
+	repo := repositories.StaticHealthRepository{}
+	svc := services.NewHealthService(repo)
+	handler := handlers.NewHealthHandler(svc)
 
-	r := gin.Default()
-	api.RegisterRoutes(r)
+	router := gin.New()
+	router.GET("/health", handler.HealthCheck)
 
 	req, _ := http.NewRequest(http.MethodGet, "/health", nil)
-	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-	assert.Equal(t, http.StatusOK, w.Code)
-	expectedBody := `{"status":"healthy"}`
-	assert.JSONEq(t, expectedBody, w.Body.String())
+	recorder := httptest.NewRecorder()
+	router.ServeHTTP(recorder, req)
+
+	assert.Equal(t, http.StatusOK, recorder.Code)
+
+	var body services.HealthStatus
+	err := json.Unmarshal(recorder.Body.Bytes(), &body)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "healthy", body.Status)
+	assert.NotEmpty(t, body.Uptime)
+}
+
+func TestReadinessHandler_ReadinessCheck(t *testing.T) {
+	t.Setenv("PORT", "8080")
+	gin.SetMode(gin.TestMode)
+
+	repo := repositories.StaticReadinessRepository{}
+	svc := services.NewReadinessService(repo)
+	handler := handlers.NewReadinessHandler(svc)
+
+	router := gin.New()
+	router.GET("/ops/ready", handler.Handle)
+
+	req, _ := http.NewRequest(http.MethodGet, "/ops/ready", nil)
+	recorder := httptest.NewRecorder()
+	router.ServeHTTP(recorder, req)
+
+	assert.Equal(t, http.StatusOK, recorder.Code)
+
+	var body readinessResponse
+	err := json.Unmarshal(recorder.Body.Bytes(), &body)
+	assert.NoError(t, err)
+	assert.Equal(t, "ready", body.Status)
+}
+
+func TestLivenessHandler_LivenessCheck(t *testing.T) {
+	t.Setenv("PORT", "8080")
+	gin.SetMode(gin.TestMode)
+
+	repo := repositories.StaticLivenessRepository{}
+	svc := services.NewLivenessService(repo)
+	handler := handlers.NewLivenessHandler(svc)
+
+	router := gin.New()
+	router.GET("/ops/live", handler.Handle)
+
+	req, _ := http.NewRequest(http.MethodGet, "/ops/live", nil)
+	recorder := httptest.NewRecorder()
+	router.ServeHTTP(recorder, req)
+
+	assert.Equal(t, http.StatusOK, recorder.Code)
+
+	var body struct {
+		Status string `json:"status"`
+	}
+	err := json.Unmarshal(recorder.Body.Bytes(), &body)
+	assert.NoError(t, err)
+	assert.Equal(t, "alive", body.Status)
 }

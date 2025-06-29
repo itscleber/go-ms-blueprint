@@ -1,4 +1,4 @@
-module template
+module github.com/itscleber/go-ms-blueprint
 
 go 1.23.0
 
