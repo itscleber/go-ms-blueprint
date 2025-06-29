@@ -2,6 +2,7 @@ package telemetry
 
 import (
 	"context"
+	"log"
 	"os"
 
 	"go.opentelemetry.io/otel"
@@ -42,4 +43,12 @@ func InitTracer(ctx context.Context) (*sdktrace.TracerProvider, error) {
 	otel.SetTextMapPropagator(propagation.TraceContext{})
 
 	return tp, nil
+}
+
+func MustInitTracer(ctx context.Context) *sdktrace.TracerProvider {
+	tp, err := InitTracer(ctx)
+	if err != nil {
+		log.Fatalf("failed to initialize tracer: %v", err)
+	}
+	return tp
 }

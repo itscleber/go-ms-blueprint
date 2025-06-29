@@ -1,7 +1,11 @@
 package api
 
-import "github.com/gin-gonic/gin"
+import (
+	"template/internal/handlers"
 
-func RegisterRoutes(r *gin.Engine) {
-	registerHealthRoutes(r)
+	"github.com/gin-gonic/gin"
+)
+
+func RegisterRoutes(r *gin.Engine, healthHandler *handlers.HealthHandler) {
+	registerHealthRoutes(r, healthHandler)
 }
