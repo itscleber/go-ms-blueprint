@@ -19,9 +19,13 @@ func NewReadinessHandler(svc ReadinessService) *ReadinessHandler {
 }
 
 func (h *ReadinessHandler) Handle(c *gin.Context) {
+	status := "not ready"
+	code := http.StatusServiceUnavailable
+
 	if h.svc.IsReady() {
-		c.Status(http.StatusOK)
-	} else {
-		c.Status(http.StatusServiceUnavailable)
+		status = "ready"
+		code = http.StatusOK
 	}
+
+	c.JSON(code, gin.H{"status": status})
 }
