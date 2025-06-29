@@ -17,11 +17,8 @@ test:
 down:
 	docker-compose -f $(COMPOSE_FILE) down
 
-pre-commit:
-	pre-commit run --all-files
-
 pre-commit-install:
 	pre-commit install
 
-pre-commit-run:
+linter:
 	pre-commit run --all-files

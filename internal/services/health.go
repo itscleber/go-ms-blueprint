@@ -1,8 +1,8 @@
 package services
 
 import (
-	"time"
 	"template/internal/repositories"
+	"time"
 )
 
 type HealthStatus struct {
