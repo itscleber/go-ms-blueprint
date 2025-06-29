@@ -4,9 +4,9 @@ import (
 	"context"
 	"log"
 
-	"template/internal/api"
-	"template/internal/config"
-	"template/internal/telemetry"
+	"github.com/itscleber/go-ms-blueprint/internal/api"
+	"github.com/itscleber/go-ms-blueprint/internal/config"
+	"github.com/itscleber/go-ms-blueprint/internal/telemetry"
 )
 
 func main() {

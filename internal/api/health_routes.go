@@ -1,7 +1,7 @@
 package api
 
 import (
-	"template/internal/handlers"
+	"github.com/itscleber/go-ms-blueprint/internal/handlers"
 
 	"github.com/gin-gonic/gin"
 )

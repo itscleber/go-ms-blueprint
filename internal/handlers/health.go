@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"net/http"
-	"template/internal/services"
+	"github.com/itscleber/go-ms-blueprint/internal/services"
 
 	"github.com/gin-gonic/gin"
 )

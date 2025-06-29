@@ -1,6 +1,6 @@
 package services
 
-import "template/internal/repositories"
+import "github.com/itscleber/go-ms-blueprint/internal/repositories"
 
 type ReadinessService struct {
 	repo repositories.ReadinessRepository

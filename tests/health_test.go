@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	"template/internal/handlers"
-	"template/internal/repositories"
-	"template/internal/services"
+	"github.com/itscleber/go-ms-blueprint/internal/handlers"
+	"github.com/itscleber/go-ms-blueprint/internal/repositories"
+	"github.com/itscleber/go-ms-blueprint/internal/services"
 	"testing"
 
 	"github.com/gin-gonic/gin"

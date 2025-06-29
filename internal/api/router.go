@@ -1,9 +1,9 @@
 package api
 
 import (
-	"template/internal/handlers"
-	"template/internal/repositories"
-	"template/internal/services"
+	"github.com/itscleber/go-ms-blueprint/internal/handlers"
+	"github.com/itscleber/go-ms-blueprint/internal/repositories"
+	"github.com/itscleber/go-ms-blueprint/internal/services"
 
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"

@@ -1,7 +1,7 @@
 package services
 
 import (
-	"template/internal/repositories"
+	"github.com/itscleber/go-ms-blueprint/internal/repositories"
 	"time"
 )
 
