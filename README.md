@@ -101,24 +101,27 @@ docker-compose -f docker-compose.dev.yaml up
 
 CI pipeline runs on every PR and push to `main`, performing:
 
-- Code linting with `golangci-lint`
-- Unit test execution
-- Coverage reporting (via `make cover`)
+[CI Workflow Status](https://github.com/itscleber/go-ms-blueprint/actions/workflows/ci.yaml)
 
 ---
 
-## 📦 Environment Variables
+## 🚀 Getting Started with the Boilerplate
 
-Use the `.env` or `.env.example` file for local overrides:
+To use this blueprint as a starting point for your own microservice:
 
+```bash
+# Clone without Git history
+git clone --depth=1 https://github.com/itscleber/go-ms-blueprint my-new-service
+cd my-new-service
+rm -rf .git
+
+# Initialize your own Git repository
+git init
+git remote add origin <your-repo-url>
+
+# Update the Go module name
+go mod edit -module github.com/your-org/your-service-name
+go mod tidy
 ```
-ENV=dev
-SERVICE_NAME=sample-svc
-PORT=8080
-```
 
----
-
-## 📝 License
-
-MIT License
+You can now customize the service name, API routes, handlers, and telemetry setup according to your needs.
