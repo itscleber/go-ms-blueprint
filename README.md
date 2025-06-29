@@ -12,17 +12,25 @@ A lightweight and opinionated Go microservice blueprint with structured folders,
 .
 ├── Dockerfile
 ├── Makefile
-├── api
-│   └── routes.go
 ├── cmd
 │   └── main.go
-├── config
-│   └── logger.go
+├── internal
+│   ├── api
+│   │   ├── routes.go
+│   │   └── health_routes.go
+│   ├── handlers
+│   │   └── health.go
+│   ├── services
+│   │   └── health.go
+│   ├── repositories
+│   │   └── health.go
+│   ├── config
+│   │   └── logger.go
+│   └── telemetry
+│       └── tracer.go
 ├── docker-compose.dev.yaml
 ├── go.mod
 ├── go.sum
-├── telemetry
-│   └── tracer.go
 └── tests
     └── health_test.go
 ```
