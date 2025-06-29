@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 
-	"template/api"
-	"template/config"
-	"template/telemetry"
+	"template/internal/api"
+	"template/internal/config"
+	"template/internal/telemetry"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"

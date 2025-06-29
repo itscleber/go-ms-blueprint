@@ -3,7 +3,7 @@ package tests
 import (
 	"net/http"
 	"net/http/httptest"
-	"template/api"
+	"template/internal/api"
 	"testing"
 
 	"github.com/gin-gonic/gin"
