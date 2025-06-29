@@ -64,3 +64,28 @@ func TestReadinessHandler_ReadinessCheck(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "ready", body.Status)
 }
+
+func TestLivenessHandler_LivenessCheck(t *testing.T) {
+	t.Setenv("PORT", "8080")
+	gin.SetMode(gin.TestMode)
+
+	repo := repositories.StaticLivenessRepository{}
+	svc := services.NewLivenessService(repo)
+	handler := handlers.NewLivenessHandler(svc)
+
+	router := gin.New()
+	router.GET("/ops/live", handler.Handle)
+
+	req, _ := http.NewRequest(http.MethodGet, "/ops/live", nil)
+	recorder := httptest.NewRecorder()
+	router.ServeHTTP(recorder, req)
+
+	assert.Equal(t, http.StatusOK, recorder.Code)
+
+	var body struct {
+		Status string `json:"status"`
+	}
+	err := json.Unmarshal(recorder.Body.Bytes(), &body)
+	assert.NoError(t, err)
+	assert.Equal(t, "alive", body.Status)
+}

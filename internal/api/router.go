@@ -18,9 +18,13 @@ func SetupRouter(serviceName string) *gin.Engine {
 	svcReadiness := services.NewReadinessService(repoReadiness)
 	readinessHandler := handlers.NewReadinessHandler(svcReadiness)
 
+	repoLiveness := repositories.StaticLivenessRepository{}
+	svcLiveness := services.NewLivenessService(repoLiveness)
+	livenessHandler := handlers.NewLivenessHandler(svcLiveness)
+
 	r := gin.Default()
 	r.Use(otelgin.Middleware(serviceName))
 
-	RegisterRoutes(r, healthHandler, readinessHandler)
+	RegisterRoutes(r, healthHandler, readinessHandler, livenessHandler)
 	return r
 }
