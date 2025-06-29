@@ -3,19 +3,17 @@ ifneq (,$(wildcard ./.env))
 	export
 endif
 
-COMPOSE_FILE=docker-compose.dev.yaml
-
 up:
-	docker-compose -f $(COMPOSE_FILE) up --build --force-recreate -d
+	docker-compose up --build --force-recreate -d
 
 run:
-	docker-compose -f $(COMPOSE_FILE) exec app go run ./cmd/main.go
+	docker-compose exec app go run ./cmd/main.go
 
 test:
-	docker-compose -f $(COMPOSE_FILE) exec app go test ./tests
+	docker-compose exec app go test ./tests
 
 down:
-	docker-compose -f $(COMPOSE_FILE) down
+	docker-compose down
 
 pre-commit-install:
 	pre-commit install
@@ -27,8 +25,8 @@ lint:
 	golangci-lint run ./...
 
 test:
-	go test -v ./...
+	docker-compose exec app go test -v ./...
 
 cover:
-	go test -coverprofile=coverage.out ./...
-	go tool cover -html=coverage.out
+	docker-compose exec app go test -coverprofile=coverage.out ./...
+	docker-compose exec app go tool cover -html=coverage.out

@@ -42,7 +42,8 @@ A lightweight and opinionated Go microservice blueprint with structured folders,
 │       └── tracer.go
 ├── tests/
 │   └── health_test.go
-├── docker-compose.dev.yaml
+├── docker-compose.yaml
+├── docker-compose.override.yaml
 ├── go.mod
 ├── go.sum
 └── .env.example
@@ -89,12 +90,6 @@ Traces are sent from the application to the local OpenTelemetry Collector, which
 - OTEL Collector config: `infra/otel/otel-collector-config.yaml`
 - Jaeger UI: [http://localhost:16686](http://localhost:16686)
 
-Ensure Docker is running with `otel-collector` and `jaeger` containers:
-
-```sh
-docker-compose -f docker-compose.dev.yaml up
-```
-
 ---
 
 ## ✅ GitHub Actions CI
@@ -125,3 +120,13 @@ go mod tidy
 ```
 
 You can now customize the service name, API routes, handlers, and telemetry setup according to your needs.
+
+### 🐳 Service-Specific Docker Configuration
+
+Use `docker-compose.override.yaml` to add service-specific configurations such as:
+- Additional environment variables
+- Volume mounts for local development
+- Service dependencies (databases, caches, etc.)
+- Custom ports or network configurations
+
+This file is automatically loaded by Docker Compose and allows you to extend the base configuration without modifying the main `docker-compose.yaml` file.
