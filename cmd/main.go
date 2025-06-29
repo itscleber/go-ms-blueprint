@@ -7,11 +7,12 @@ import (
 	"github.com/itscleber/go-ms-blueprint/internal/api"
 	"github.com/itscleber/go-ms-blueprint/internal/config"
 	"github.com/itscleber/go-ms-blueprint/internal/telemetry"
+
+	"go.opentelemetry.io/otel"
 )
 
 func main() {
 	ctx := context.Background()
-	serviceName := config.LoadEnvAndLogger()
 
 	tp := telemetry.MustInitTracer(ctx)
 	defer func() {
@@ -20,7 +21,10 @@ func main() {
 		}
 	}()
 
+	ctx, span := otel.Tracer("main").Start(ctx, "startup")
+	defer span.End()
 
+	serviceName := config.LoadEnvAndLogger()
 	r := api.SetupRouter(serviceName)
 
 	port := config.GetPort()
