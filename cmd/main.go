@@ -14,7 +14,12 @@ func main() {
 	serviceName := config.LoadEnvAndLogger()
 
 	tp := telemetry.MustInitTracer(ctx)
-	defer tp.Shutdown(ctx)
+	defer func() {
+		if err := tp.Shutdown(ctx); err != nil {
+			log.Println("tracer shutdown error:", err)
+		}
+	}()
+
 
 	r := api.SetupRouter(serviceName)
 
